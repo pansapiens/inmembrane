@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
-citation = {'ref': u"Agnieszka S. Juncker, Hanni Willenbrock, "
-                   u"Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
-                   u"And Anders Krogh. (2003) Prediction of lipoprotein "
-                   u"signal peptides in Gram-negative bacteria. Protein "
-                   u"Science 12:1652–1662. \n"
-                   u"<http://dx.doi.org/10.1110/ps.0303703>",
+citation = {'ref': "Agnieszka S. Juncker, Hanni Willenbrock, "
+                   "Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
+                   "And Anders Krogh. (2003) Prediction of lipoprotein "
+                   "signal peptides in Gram-negative bacteria. Protein "
+                   "Science 12:1652–1662. \n"
+                   "<http://dx.doi.org/10.1110/ps.0303703>",
             'name': "LipoP 1.0 (web interface)"
             }
 
 __DEBUG__ = False
 
 import sys, os, time
-from StringIO import StringIO
-from BeautifulSoup import BeautifulSoup
+from io import StringIO
+from bs4 import BeautifulSoup
 import requests
 
-try:
-    from collections import OrderedDict
-except:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 import inmembrane
 from inmembrane.plugins.lipop1 import parse_lipop
@@ -50,7 +47,7 @@ def annotate(params, proteins, batchsize=2000, force=False):
 
     proteins, id_mapping = generate_safe_seqids(proteins)
 
-    seqids = proteins.keys()
+    seqids = list(proteins.keys())
     allresultpages = ""
     while seqids:
         seqid_batch = seqids[0:batchsize]
@@ -100,7 +97,7 @@ def annotate(params, proteins, batchsize=2000, force=False):
 
         r_post_clean = r_post.text.replace("<noscript>", "").replace(
             "</noscript", "")
-        soup = BeautifulSoup(r_post_clean)
+        soup = BeautifulSoup(r_post_clean, 'html.parser')
         pollingurl = soup.findAll('a')[0]['href']
         sys.stderr.write("# Fetching from: " + pollingurl + "\n");
         # try grabbing the result, then keep polling until they are ready

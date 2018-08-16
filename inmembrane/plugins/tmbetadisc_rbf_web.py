@@ -10,9 +10,9 @@ citation = {'ref': "Ou Y-YY, Gromiha MMM, Chen S-AA, Suwa M (2008) "
 
 __DEBUG__ = False
 
-import sys, os, time, StringIO
+import sys, os, time, io
 import requests
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from inmembrane.helpers import log_stderr, parse_fasta_header, dict_get
 
 
@@ -22,7 +22,7 @@ def parse_tmbetadisc_output(output, proteins):
     an uses it to annotate and return an associated 'proteins' data structure.
     """
 
-    soup = BeautifulSoup(output)
+    soup = BeautifulSoup(output, 'html.parser')
     # parse the table. we pop of single data cells one at a time
     fields = soup.findAll("td")
     fields.reverse()

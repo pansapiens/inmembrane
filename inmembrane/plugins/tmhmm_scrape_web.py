@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-citation = {'ref': u"Anders Krogh, Björn Larsson, Gunnar von Heijne and Erik "
-                   u"L. L. Sonnhammer (2001) Predicting Transmembrane Protein "
-                   u"Topology with a Hidden Markov Model: Application to "
-                   u"Complete Genomes. J. Mol. Biol. 305:567-580. \n"
-                   u"<http://dx.doi.org/10.1006/jmbi.2000.4315>",
+citation = {'ref': "Anders Krogh, Björn Larsson, Gunnar von Heijne and Erik "
+                   "L. L. Sonnhammer (2001) Predicting Transmembrane Protein "
+                   "Topology with a Hidden Markov Model: Application to "
+                   "Complete Genomes. J. Mol. Biol. 305:567-580. \n"
+                   "<http://dx.doi.org/10.1006/jmbi.2000.4315>",
             'name': "TMHMM 2.0"
             }
 
 __DEBUG__ = False
 
 import sys, os, time
-from StringIO import StringIO
-from BeautifulSoup import BeautifulSoup
+from io import StringIO
+from bs4 import BeautifulSoup
 import requests
 
-try:
-    from collections import OrderedDict
-except:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 import inmembrane
 from inmembrane.plugins.tmhmm import parse_tmhmm
@@ -51,7 +48,7 @@ def annotate(params, proteins, \
 
     proteins, id_mapping = generate_safe_seqids(proteins)
 
-    seqids = proteins.keys()
+    seqids = list(proteins.keys())
     allresultpages = ""
     while seqids:
         seqid_batch = seqids[0:batchsize]
@@ -102,7 +99,7 @@ def annotate(params, proteins, \
         if ("<title>Job status of" in r_post.text):
             r_clean = r_post.text.replace("<noscript>", "").replace(
                 "</noscript", "")
-            soup = BeautifulSoup(r_clean)
+            soup = BeautifulSoup(r_clean, 'html.parser')
             resultlink = soup.findAll('a')[0]['href']
             if __DEBUG__:
                 log_stderr(resultlink)
@@ -118,7 +115,7 @@ def annotate(params, proteins, \
                 resultpage = requests.get(resultlink).text
                 retries += 1
         else:
-            resultpage = r.text
+            resultpage = r_post.text
 
         sys.stderr.write(" .. done !\n")
 

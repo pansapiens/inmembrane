@@ -2,12 +2,12 @@
 import re
 from inmembrane.helpers import run, parse_fasta_header, dict_get
 
-citation = {'ref': u"Agnieszka S. Juncker, Hanni Willenbrock, "
-                   u"Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
-                   u"And Anders Krogh. (2003) Prediction of lipoprotein "
-                   u"signal peptides in Gram-negative bacteria. Protein "
-                   u"Science 12:1652–1662. \n"
-                   u"<http://dx.doi.org/10.1110/ps.0303703>",
+citation = {'ref': "Agnieszka S. Juncker, Hanni Willenbrock, "
+                   "Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
+                   "And Anders Krogh. (2003) Prediction of lipoprotein "
+                   "signal peptides in Gram-negative bacteria. Protein "
+                   "Science 12:1652–1662. \n"
+                   "<http://dx.doi.org/10.1110/ps.0303703>",
             'name': 'LipoP 1.0'
             }
 

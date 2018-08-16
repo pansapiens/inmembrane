@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-citation = {'ref': u"Petersen TN, Brunak S, von Heijne G, Nielsen H. "
-                   u"SignalP 4.0: discriminating signal peptides from "
-                   u"transmembrane regions. Nature methods 2011 "
-                   u"Jan;8(10):785-6. \n"
-                   u"<http://dx.doi.org/10.1038/nmeth.1701>",
+citation = {'ref': "Petersen TN, Brunak S, von Heijne G, Nielsen H. "
+                   "SignalP 4.0: discriminating signal peptides from "
+                   "transmembrane regions. Nature methods 2011 "
+                   "Jan;8(10):785-6. \n"
+                   "<http://dx.doi.org/10.1038/nmeth.1701>",
             'name': "SignalP 4.1"
             }
 
 __DEBUG__ = False
 
 import sys, os, time
-from StringIO import StringIO
-from BeautifulSoup import BeautifulSoup
+from io import StringIO
+from bs4 import BeautifulSoup
 import requests
 
-try:
-    from collections import OrderedDict
-except:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 import inmembrane
 from inmembrane.plugins.signalp4 import parse_signalp
@@ -52,7 +49,7 @@ def annotate(params, proteins, batchsize=2000, force=False):
 
     proteins, id_mapping = generate_safe_seqids(proteins)
 
-    seqids = proteins.keys()
+    seqids = list(proteins.keys())
     allresultpages = ""
     while seqids:
         seqid_batch = seqids[0:batchsize]
@@ -107,7 +104,7 @@ def annotate(params, proteins, batchsize=2000, force=False):
 
         r_post_clean = r_post.text.replace("<noscript>", "").replace(
             "</noscript", "")
-        soup = BeautifulSoup(r_post_clean)
+        soup = BeautifulSoup(r_post_clean, 'html.parser')
         pollingurl = soup.findAll('a')[0]['href']
         sys.stderr.write("# Fetching from: " + pollingurl + "\n");
         # try grabbing the result, then keep polling until they are ready

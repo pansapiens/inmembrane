@@ -86,7 +86,7 @@ def log_stdout(s, width=76):
     """
     if LOG_SILENT:
         return
-    print s
+    print(s)
 
 
 def parse_fasta_header(header):
@@ -158,13 +158,13 @@ def print_proteins(proteins):
     Prints out the proteins dictionary in a formatted
     manner that is also Python-eval compatible.
     """
-    print "{"
+    print("{")
     for seqid in proteins:
-        print "  '%s': {" % seqid
-        for key, value in proteins[seqid].items():
-            print "    '%s': %s, " % (key, repr(value))
-        print "  },"
-    print "}"
+        print(("  '%s': {" % seqid))
+        for key, value in list(proteins[seqid].items()):
+            print(("    '%s': %s, " % (key, repr(value))))
+        print("  },")
+    print("}")
     # Standard Library alternative
     # import pprint
     # pp = pprint.PrettyPrinter(indent=4)
@@ -224,7 +224,7 @@ def chop_nterminal_peptide(protein, i_cut):
     for prop in protein:
         if '_loops' in prop or '_helices' in prop:
             sses = protein[prop]
-            for i in reversed(range(len(sses))):
+            for i in reversed(list(range(len(sses)))):
                 j, k = sses[i]
                 # tests if this loop or TM-helix has been cut out
                 if j <= 0 and k <= 0:
@@ -255,7 +255,7 @@ def generate_safe_seqids(proteins):
     id_mapping = {}
     count = 0
     for seqid in proteins:
-        safe_id = re.sub(r'[^\w]', "", seqid) + '_' + `count`
+        safe_id = re.sub(r'[^\w]', "", seqid) + '_' + repr(count)
         id_mapping[safe_id] = seqid
         proteins[seqid]['safe_seqid'] = safe_id
         count += 1

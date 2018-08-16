@@ -17,8 +17,8 @@ for genome in gbk:
     if not os.path.isfile(pse):
         os.system("python ../../inmembrane.py %s.fasta > %s" % (genome, pse))
 
-    print "%s: %s" % (genome, gbk[genome])
-    print "--"
+    print("%s: %s" % (genome, gbk[genome]))
+    print("--")
 
     category_count = {}
     for line in open(pse):
@@ -36,7 +36,7 @@ for genome in gbk:
     for category in ['CYTOPLASM', 'MEMBRANE', 'PSE', 'SECRETED', 'TOTAL']:
         count = category_count[category]
         percent = 100.0 * count / float(n)
-        print "%-9s %4d %3.f%%" % (category, count, percent)
+        print("%-9s %4d %3.f%%" % (category, count, percent))
 
-    print
-    print
+    print()
+    print()

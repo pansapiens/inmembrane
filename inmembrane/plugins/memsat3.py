@@ -3,11 +3,11 @@ import os
 import re
 from inmembrane.helpers import seqid_to_filename, run, write_proteins_fasta
 
-citation = {'ref': u"﻿Jones DT. Improving the accuracy of transmembrane "
-                   u"protein topology prediction using evolutionary "
-                   u"information. Bioinformatics (Oxford, England) "
-                   u"2007 Mar;23(5):538-44. \n"
-                   u"<http://dx.doi.org/10.1093/bioinformatics/btl677",
+citation = {'ref': "﻿Jones DT. Improving the accuracy of transmembrane "
+                   "protein topology prediction using evolutionary "
+                   "information. Bioinformatics (Oxford, England) "
+                   "2007 Mar;23(5):538-44. \n"
+                   "<http://dx.doi.org/10.1093/bioinformatics/btl677",
             'name': "MEMSAT3"
             }
 

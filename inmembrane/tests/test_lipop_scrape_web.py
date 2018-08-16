@@ -17,10 +17,10 @@ class TestLipoP(PluginTestBase):
         lipop_scrape_web.annotate(self.params, self.proteins)
 
         self.expected_output = {
-            u'SPy_0252': True,
-            u'SPy_2077': False,
-            u'SPy_0317': True,
-            u'tr|Q9HYX8': True,
+            'SPy_0252': True,
+            'SPy_2077': False,
+            'SPy_0317': True,
+            'tr|Q9HYX8': True,
         }
 
         # print self.expected_output
@@ -30,11 +30,11 @@ class TestLipoP(PluginTestBase):
         for seqid in self.expected_output:
             self.assertEqual(
                 self.expected_output[seqid], self.proteins[seqid]['is_lipop'])
-        self.assertEqual(self.proteins[u'tr|Q9HYX8']['lipop_cleave_position'],
+        self.assertEqual(self.proteins['tr|Q9HYX8']['lipop_cleave_position'],
                          19)
-        self.assertIn('lipop_im_retention_signal', self.proteins[u'tr|Q9HYX8'])
+        self.assertIn('lipop_im_retention_signal', self.proteins['tr|Q9HYX8'])
         self.assertTrue(
-            self.proteins[u'tr|Q9HYX8']['lipop_im_retention_signal'])
+            self.proteins['tr|Q9HYX8']['lipop_im_retention_signal'])
 
 
 if __name__ == '__main__':

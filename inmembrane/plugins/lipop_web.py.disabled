@@ -2,18 +2,18 @@
 # code loosely based on: https://portal.nordu.net/display/ndgfwiki/Python-Suds
 # see: http://www.cbs.dtu.dk/ws/ws.php?entry=SignalP4
 
-citation = {'ref': u"Agnieszka S. Juncker, Hanni Willenbrock, "
-                   u"Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
-                   u"And Anders Krogh. (2003) Prediction of lipoprotein "
-                   u"signal peptides in Gram-negative bacteria. Protein "
-                   u"Science 12:1652–1662. \n"
-                   u"<http://dx.doi.org/10.1110/ps.0303703>",
+citation = {'ref': "Agnieszka S. Juncker, Hanni Willenbrock, "
+                   "Gunnar Von Heijne, Søren Brunak, Henrik Nielsen, "
+                   "And Anders Krogh. (2003) Prediction of lipoprotein "
+                   "signal peptides in Gram-negative bacteria. Protein "
+                   "Science 12:1652–1662. \n"
+                   "<http://dx.doi.org/10.1110/ps.0303703>",
             'name': "LipoP 1.0.ws0"
             }
 
 __DEBUG__ = False
 
-import sys, os, time, json, re, urllib2
+import sys, os, time, json, re, urllib.request, urllib.error, urllib.parse
 from suds.client import Client
 from suds.bindings import binding
 import logging
@@ -62,7 +62,7 @@ def annotate(params, proteins, \
     #client = Client(url, plugins=[doctor], cache=None)
     """
 
-    seqids = proteins.keys()
+    seqids = list(proteins.keys())
     lipop_dict = {}
     while seqids:
         seqid_batch = seqids[0:batchsize]
@@ -85,7 +85,7 @@ def annotate(params, proteins, \
 
             # workaround: removes any non-alphanumeric character (except '_') and adds
             # a unique number to the start to ensure every id is unique after mangling
-            newseqid = `seqcount` + re.sub(r'[^\w]', "", seqid)
+            newseqid = repr(seqcount) + re.sub(r'[^\w]', "", seqid)
             seqcount += 1
             lipop_seq_id_mapping[newseqid] = seqid
             seq.id = newseqid
@@ -96,8 +96,8 @@ def annotate(params, proteins, \
             sys.stderr.write(".")
         try:
             response = client.service.runService(request)
-        except urllib2.URLError as e:
-            log_stderr("ERROR LipoP(web) failed: '%s'" % `e.reason`)
+        except urllib.error.URLError as e:
+            log_stderr("ERROR LipoP(web) failed: '%s'" % repr(e.reason))
             return proteins
 
         sys.stderr.write("\n")

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-citation = {'ref': u"Anders Krogh, Björn Larsson, Gunnar von Heijne and Erik "
-                   u"L. L. Sonnhammer (2001) Predicting Transmembrane Protein "
-                   u"Topology with a Hidden Markov Model: Application to "
-                   u"Complete Genomes. J. Mol. Biol. 305:567-580. \n"
-                   u"<http://dx.doi.org/10.1006/jmbi.2000.4315>",
+citation = {'ref': "Anders Krogh, Björn Larsson, Gunnar von Heijne and Erik "
+                   "L. L. Sonnhammer (2001) Predicting Transmembrane Protein "
+                   "Topology with a Hidden Markov Model: Application to "
+                   "Complete Genomes. J. Mol. Biol. 305:567-580. \n"
+                   "<http://dx.doi.org/10.1006/jmbi.2000.4315>",
             'name': "TMHMM 2.0"
             }
 
@@ -41,7 +41,7 @@ def annotate(params, proteins, \
         annots = json.loads(fh.read())
         fh.close()
         for seqid in annots:
-            for k in mapping.values():
+            for k in list(mapping.values()):
                 proteins[seqid][k] = annots[seqid][k]
 
         citation['name'] = annots[seqid]['program_name']
@@ -51,7 +51,7 @@ def annotate(params, proteins, \
     log_stderr(
         "# TMHMM(web): submitting in batches of %i sequences" % batchsize)
 
-    seqids = proteins.keys()
+    seqids = list(proteins.keys())
     tmhmm_dict = {}
     while seqids:
         seqid_batch = seqids[0:batchsize]
@@ -72,7 +72,7 @@ def annotate(params, proteins, \
 
             # workaround: removes any non-alphanumeric character (except '_') and adds
             # a unique number to the start to ensure every id is unique after mangling
-            newseqid = `seqcount` + re.sub(r'[^\w]', "", seqid)
+            newseqid = repr(seqcount) + re.sub(r'[^\w]', "", seqid)
             seqcount += 1
             tmhmm_seq_id_mapping[newseqid] = seqid
             # seq.id = seqid
@@ -140,7 +140,7 @@ def annotate(params, proteins, \
 
             # extract a copy of results from proteins dictionary
             # ready to we written to cache file
-            for k in mapping.values():
+            for k in list(mapping.values()):
                 tmhmm_dict[seqid][k] = proteins[seqid][k]
 
             tmhmm_dict[seqid]['program_name'] = citation['name']

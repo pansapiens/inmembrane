@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-citation = {'ref': u"Garrow, A.G., Agnew, A. and Westhead, D.R. TMB-Hunt: An "
-                   u"amino acid composition based method to screen proteomes "
-                   u"for beta-barrel transmembrane proteins. BMC "
-                   u"Bioinformatics, 2005, 6: 56 \n "
-                   u"<http://dx.doi.org/10.1186/1471-2105-6-56>",
+citation = {'ref': "Garrow, A.G., Agnew, A. and Westhead, D.R. TMB-Hunt: An "
+                   "amino acid composition based method to screen proteomes "
+                   "for beta-barrel transmembrane proteins. BMC "
+                   "Bioinformatics, 2005, 6: 56 \n "
+                   "<http://dx.doi.org/10.1186/1471-2105-6-56>",
             'name': "TMB-HUNT"
             }
 
 __DEBUG__ = False
 
-import sys, os, time, StringIO
+import sys, os, time, io
 
 import twill
 from twill.commands import find, formfile, follow, fv, go, show, \
@@ -51,7 +51,7 @@ def annotate(params, proteins, \
         return parse_tmbhunt(proteins, out)
 
     # dump extraneous output into this blackhole so we don't see it
-    if not __DEBUG__: twill.set_output(StringIO.StringIO())
+    if not __DEBUG__: twill.set_output(io.StringIO())
 
     go("http://bmbpcu36.leeds.ac.uk/~andy/betaBarrel/AACompPred/aaTMB_Hunt.cgi")
     if __DEBUG__: showforms()
@@ -130,7 +130,7 @@ def parse_tmbhunt(proteins, out):
             # so we find the equivalent any-case id in our proteins list
             # and use that. ugly but necessary.
             seqid, desc = parse_fasta_header(l)
-            for i in proteins.keys():
+            for i in list(proteins.keys()):
                 if seqid.upper() == i.upper():
                     seqid = i
                     desc = proteins[i]['name']

@@ -1,5 +1,8 @@
 __version__ = "0.95.0"  # Must be a semantic version number
-import helpers
+from . import helpers
+
+# will load all plugins in the plugins/ directory
+from inmembrane.plugins import *
 
 import os, shutil
 
@@ -40,7 +43,7 @@ default_params_str = """{
 
 
 def get_params():
-    from helpers import log_stderr
+    from .helpers import log_stderr
     """
     Gets the params dictionary that hold all the configuration
     information of the program. This is loaded from 'inmembrane.config'
@@ -70,7 +73,7 @@ def init_output_dir(params):
     Creates a directory for all output files and makes it the current
     working directory. copies the input sequences into it as 'input.fasta'.
     """
-    from helpers import dict_get
+    from .helpers import dict_get
 
     if dict_get(params, 'out_dir'):
         base_dir = params['out_dir']
@@ -118,12 +121,10 @@ def process(params):
     to annotate all proteins give the list of annotations needed by
     'protocol'. Then outputs to screen and a .csv file.
     """
-    from helpers import dict_get, create_proteins_dict, log_stdout, log_stderr
-    # will load all plugins in the plugins/ directory
-    from inmembrane.plugins import *
+    from .helpers import dict_get, create_proteins_dict, log_stdout, log_stderr
 
     # initializations
-    exec (import_protocol_python(params))
+    exec(import_protocol_python(params))
     init_output_dir(params)
     seqids, proteins = create_proteins_dict(params['fasta'])
 

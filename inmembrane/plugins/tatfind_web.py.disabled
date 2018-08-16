@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
-citation = {'ref': u"Rose, R.W., T. Brüser,. J. C. Kissinger, and M. "
-                   u"Pohlschröder. 2002. Adaptation of protein secretion "
-                   u"to extremely high salt concentrations by extensive use "
-                   u"of the twin arginine translocation pathway. Mol. Microbiol."
-                   u"5: 943-950 \n"
-                   u"<http://dx.doi.org/10.1046/j.1365-2958.2002.03090.x>",
+citation = {'ref': "Rose, R.W., T. Brüser,. J. C. Kissinger, and M. "
+                   "Pohlschröder. 2002. Adaptation of protein secretion "
+                   "to extremely high salt concentrations by extensive use "
+                   "of the twin arginine translocation pathway. Mol. Microbiol."
+                   "5: 943-950 \n"
+                   "<http://dx.doi.org/10.1046/j.1365-2958.2002.03090.x>",
             'name': "TatFind 1.4"
             }
 
 __DEBUG__ = False
 
-import sys, os, time, StringIO
+import sys, os, time, io
 
 import twill
 from twill.commands import find, formfile, follow, fv, go, show, \
@@ -61,7 +61,7 @@ def annotate(params, proteins, \
         return proteins
 
     # dump extraneous output into this blackhole so we don't see it
-    if not __DEBUG__: twill.set_output(StringIO.StringIO())
+    if not __DEBUG__: twill.set_output(io.StringIO())
 
     go(url)
     if __DEBUG__: showforms()

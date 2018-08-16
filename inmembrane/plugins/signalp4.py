@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from inmembrane.helpers import run, parse_fasta_header
 
-citation = {'ref': u"Petersen TN, Brunak S, von Heijne G, Nielsen H. "
-                   u"SignalP 4.0: discriminating signal peptides from "
-                   u"transmembrane regions. Nature methods 2011 "
-                   u"Jan;8(10):785-6. \n"
-                   u"<http://dx.doi.org/10.1038/nmeth.1701>",
+citation = {'ref': "Petersen TN, Brunak S, von Heijne G, Nielsen H. "
+                   "SignalP 4.0: discriminating signal peptides from "
+                   "transmembrane regions. Nature methods 2011 "
+                   "Jan;8(10):785-6. \n"
+                   "<http://dx.doi.org/10.1038/nmeth.1701>",
             'name': "SignalP 4.0"
             }
 
